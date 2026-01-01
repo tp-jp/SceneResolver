@@ -1,1 +1,13 @@
-{"dependencies": {}, "locked": {}}
+{
+  "dependencies": {
+    "com.tplab.sceneflow": {
+      "version": "2.0.1"
+    }
+  },
+  "locked": {
+    "com.tplab.sceneflow": {
+      "version": "2.0.1",
+      "dependencies": {}
+    }
+  }
+}

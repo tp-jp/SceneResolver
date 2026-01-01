@@ -1,0 +1,19 @@
+{
+    "name": "TpLab.SceneResolver.Editor",
+    "rootNamespace": "TpLab.SceneResolver.Editor",
+    "references": [
+        "GUID:e87488c8fbc36d047a435d2054d46ae3",
+        "GUID:54fe7253c20f9f34c888f39a17ff2087"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

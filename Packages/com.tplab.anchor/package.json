@@ -1,0 +1,24 @@
+{
+  "name": "com.tplab.sceneresolver",
+  "displayName": "SceneResolver",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "SceneResolver is a foundational system that establishes a reliable reference resolution mechanism within Unity scenes.",
+  "gitDependencies": {},
+  "vpmDependencies": {
+    "com.tplab.sceneflow": "2.0.1"
+  },
+  "author": {
+    "name": "tp.jp",
+    "url": "https://github.com/tp-jp"
+  },
+  "legacyFolders": {},
+  "legacyFiles": {},
+  "samples": [
+    {
+      "displayName": "Sample",
+      "description": "A sample demonstrating how to use this package.",
+      "path": "Samples~/Sample"
+    }
+  ]
+}
