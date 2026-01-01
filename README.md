@@ -73,51 +73,6 @@ private MeshRenderer[] childRenderers;
 private Light[] allLights;
 ```
 
-## API リファレンス
-
-### ResolveAttribute
-
-```csharp
-public class ResolveAttribute : Attribute
-{
-    public ResolveAttribute(ResolveSource source = ResolveSource.Self)
-}
-```
-
-フィールドの依存関係を解決するための属性です。
-
-**パラメータ:**
-- `source`: 参照の解決元（デフォルト: `ResolveSource.Self`）
-
-**配列型フィールド:**
-
-フィールドが配列型の場合、自動的に複数の結果を取得します。
-
-```csharp
-// 単一の参照
-[Resolve(ResolveSource.Scene)]
-[SerializeField]
-private Camera mainCamera;
-
-// 複数の参照（配列型）
-[Resolve(ResolveSource.Scene)]
-[SerializeField]
-private Camera[] allCameras;
-```
-
-### ResolveSource
-
-```csharp
-public enum ResolveSource
-{
-    Self,      // 自身のGameObjectから検索
-    Parent,    // 親GameObjectから検索
-    Children,  // 子GameObjectから検索
-    Scene,     // シーン全体から検索
-}
-```
-
-
 ## 使用例
 
 ### 基本的なパターン
