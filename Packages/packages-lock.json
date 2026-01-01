@@ -7,7 +7,7 @@
       "dependencies": {}
     },
     "com.tplab.sceneresolver": {
-      "version": "file:com.tplab.anchor",
+      "version": "file:com.tplab.sceneresolver",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
