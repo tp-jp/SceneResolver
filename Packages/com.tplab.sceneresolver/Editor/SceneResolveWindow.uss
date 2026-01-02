@@ -1,0 +1,66 @@
+.root {
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.list {
+    flex-grow: 1;
+}
+
+.header {
+    flex-direction: row;
+    padding: 4px;
+    border-bottom-width: 1px;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.cell {
+    flex-grow: 1;
+    padding-left: 6px;
+}
+
+/* Status styling */
+.status-success {
+    color: rgb(100, 200, 100);
+}
+
+.status-error {
+    color: rgb(255, 100, 100);
+}
+
+/* Hover effect */
+.unity-collection-view__item:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+/* Summary styling */
+.summary {
+    -unity-font-style: italic;
+    -unity-text-align: middle-right;
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 2px 8px;
+    color: rgb(180, 180, 180);
+}
+
+/* Status badge styling */
+.status-badge {
+    padding: 2px 8px;
+    border-radius: 3px;
+    -unity-font-style: bold;
+    font-size: 10px;
+    margin: 2px;
+}
+
+.status-badge-success {
+    background-color: rgba(100, 200, 100, 0.3);
+    color: rgb(50, 150, 50);
+}
+
+.status-badge-error {
+    background-color: rgba(255, 100, 100, 0.3);
+    color: rgb(200, 50, 50);
+}

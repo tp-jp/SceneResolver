@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.tplab.sceneresolver/Editor/SceneResolveWindow.uss?fileID=7433441132597879392&amp;guid=9892e0de7d0e421f9c26abee7a5d1538&amp;type=3#SceneResolveWindow" />
+    <ui:VisualElement class="root">
+        <uie:Toolbar>
+            <uie:ToolbarButton text="Refresh" />
+            <ui:Label text="Filter:" style="margin-left: 10px; -unity-text-align: middle-left;" />
+            <uie:ToolbarMenu name="status-filter" text="All" style="width: 100px;" />
+            <ui:Label name="summary-label" class="summary" />
+        </uie:Toolbar>
+        <ui:MultiColumnListView name="resolve-list" show-border="true" show-alternating-row-backgrounds="ContentOnly" sorting-enabled="true" class="list">
+            <ui:Columns>
+                <ui:Column name="status" title="Status" width="100" min-width="80" />
+                <ui:Column name="gameObject" title="GameObject" width="200" min-width="120" stretchable="true" />
+                <ui:Column name="component" title="Component" width="180" min-width="120" stretchable="true" />
+                <ui:Column name="field" title="Field" width="150" min-width="100" stretchable="true" />
+                <ui:Column name="source" title="Source" width="100" min-width="80" />
+                <ui:Column name="message" title="Message" width="300" min-width="150" stretchable="true" />
+            </ui:Columns>
+        </ui:MultiColumnListView>
+    </ui:VisualElement>
+</ui:UXML>

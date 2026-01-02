@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TpLab.SceneResolver.Editor
 {
@@ -24,11 +23,11 @@ namespace TpLab.SceneResolver.Editor
 
             foreach (var field in fields)
             {
-                var attribute  = field.GetCustomAttribute<ResolveAttribute>();
+                var attribute = field.GetCustomAttribute<ResolveAttribute>();
                 ResolveField(target, field, attribute);
             }
         }
-        
+
         /// <summary>
         /// 単一のフィールドに対して参照解決を実行します
         /// </summary>
@@ -38,37 +37,15 @@ namespace TpLab.SceneResolver.Editor
         static void ResolveField(MonoBehaviour target, FieldInfo field, ResolveAttribute attribute)
         {
             var fieldType = field.FieldType;
-            var candidates = ResolveBySource(
+            var candidates = ResolveComponentFinder.Find(
                 target,
                 fieldType.IsArray ? fieldType.GetElementType() : fieldType,
-                attribute.Source
+                attribute.Source,
+                attribute.Options
             );
             AssignResolvedValue(target, field, candidates);
         }
-        
-        /// <summary>
-        /// 指定されたResolveSourceに基づいてコンポーネントを検索します
-        /// </summary>
-        /// <param name="self">検索の基準となるMonoBehaviour</param>
-        /// <param name="targetType">検索するコンポーネントの型</param>
-        /// <param name="source">検索範囲を指定するResolveSource</param>
-        /// <returns>見つかったコンポーネントのコレクション</returns>
-        /// <exception cref="ArgumentOutOfRangeException">サポートされていないResolveSourceが指定された場合</exception>
-        static IEnumerable<Component> ResolveBySource(
-            MonoBehaviour self,
-            Type targetType,
-            ResolveSource source)
-        {
-            return source switch
-            {
-                ResolveSource.Self => self.GetComponents(targetType),
-                ResolveSource.Parent => self.GetComponentsInParent(targetType),
-                ResolveSource.Children => self.GetComponentsInChildren(targetType),
-                ResolveSource.Scene => Object.FindObjectsOfType(targetType).OfType<Component>(),
-                _ => throw new ArgumentOutOfRangeException(nameof(source))
-            };
-        }
-        
+
         /// <summary>
         /// 解決されたコンポーネントをフィールドに割り当てます
         /// </summary>
@@ -95,6 +72,7 @@ namespace TpLab.SceneResolver.Editor
                 Logger.LogError($"Resolve failed: {field.Name}", self);
                 return;
             }
+
             if (!isArray)
             {
                 if (results.Count != 1)
@@ -102,6 +80,7 @@ namespace TpLab.SceneResolver.Editor
                     Logger.LogError($"Resolve failed: {field.Name}", self);
                     return;
                 }
+
                 field.SetValue(self, results[0]);
             }
             else
