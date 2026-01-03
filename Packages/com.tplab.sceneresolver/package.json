@@ -1,7 +1,7 @@
 {
   "name": "com.tplab.sceneresolver",
   "displayName": "SceneResolver",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "unity": "2022.3",
   "description": "SceneResolver is a foundational system that establishes a reliable reference resolution mechanism within Unity scenes.",
   "gitDependencies": {},
