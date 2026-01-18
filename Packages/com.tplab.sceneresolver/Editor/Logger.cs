@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -6,7 +5,7 @@ namespace TpLab.SceneResolver.Editor
 {
     internal static class Logger
     {
-        const string Prefix = "[<color=#4EC9B0>Anchor</color>]";
+        const string Prefix = "[<color=#4EC9B0>SceneResolver</color>]";
 
         public static void Log(object message)
         {

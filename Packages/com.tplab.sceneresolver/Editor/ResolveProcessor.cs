@@ -17,8 +17,7 @@ namespace TpLab.SceneResolver.Editor
         /// <param name="target">解決対象のMonoBehaviour</param>
         public static void ResolveFields(MonoBehaviour target)
         {
-            var fields = target.GetType()
-                .GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            var fields = GetAllFields(target.GetType())
                 .Where(f => f.IsDefined(typeof(ResolveAttribute), true));
 
             foreach (var field in fields)
@@ -26,6 +25,23 @@ namespace TpLab.SceneResolver.Editor
                 var attribute = field.GetCustomAttribute<ResolveAttribute>();
                 ResolveField(target, field, attribute);
             }
+        }
+
+        /// <summary>
+        /// 指定された型のすべてのフィールドを取得します
+        /// </summary>
+        /// <param name="type">対象のデータ型</param>
+        /// <returns>フィールド</returns>
+        static IEnumerable<FieldInfo> GetAllFields(Type type)
+        {
+            var fields = new List<FieldInfo>();
+            while (type != null)
+            {
+                fields.AddRange(type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly));
+                type = type.BaseType;
+            }
+
+            return fields;
         }
 
         /// <summary>
