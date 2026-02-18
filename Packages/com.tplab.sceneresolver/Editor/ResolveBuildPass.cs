@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TpLab.SceneResolver.Editor
 {
-    public class ResolveBuildPass : IPass
+    public class ResolveBuildPass : PassBase
     {
         public override void Execute(SceneFlowContext context)
         {
