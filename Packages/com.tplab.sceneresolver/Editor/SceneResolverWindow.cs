@@ -85,6 +85,8 @@ namespace TpLab.SceneResolver.Editor
                 _currentFilter == null ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
             _statusFilter.menu.AppendAction("Success", _ => SetFilter(ResolveStatus.Success), _ =>
                 _currentFilter == ResolveStatus.Success ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
+            _statusFilter.menu.AppendAction("Runtime", _ => SetFilter(ResolveStatus.Runtime), _ =>
+                _currentFilter == ResolveStatus.Runtime ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
             _statusFilter.menu.AppendAction("Error", _ => SetFilter(ResolveStatus.Error), _ =>
                 _currentFilter == ResolveStatus.Error ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
         }
@@ -116,20 +118,21 @@ namespace TpLab.SceneResolver.Editor
         }
 
         /// <summary>
-        /// サマリーラベルを更新（成功/エラー件数を表示）
+        /// サマリーラベルを更新（成功/実行時/エラー件数を表示）
         /// </summary>
         void UpdateSummary()
         {
             var successCount = _analyzer.Reports.Count(r => r.Status == ResolveStatus.Success);
+            var runtimeCount = _analyzer.Reports.Count(r => r.Status == ResolveStatus.Runtime);
             var errorCount = _analyzer.Reports.Count(r => r.Status == ResolveStatus.Error);
 
             if (_currentFilter == null)
             {
-                _summaryLabel.text = $"Total: {_analyzer.Reports.Count} | ✓ {successCount} | ✗ {errorCount}";
+                _summaryLabel.text = $"Total: {_analyzer.Reports.Count} | ✓ {successCount} | ○ {runtimeCount} | ✗ {errorCount}";
             }
             else
             {
-                _summaryLabel.text = $"Showing: {_filteredReports.Count} / {_analyzer.Reports.Count} | ✓ {successCount} | ✗ {errorCount}";
+                _summaryLabel.text = $"Showing: {_filteredReports.Count} / {_analyzer.Reports.Count} | ✓ {successCount} | ○ {runtimeCount} | ✗ {errorCount}";
             }
         }
 
@@ -302,6 +305,9 @@ namespace TpLab.SceneResolver.Editor
             {
                 case ResolveStatus.Success:
                     label.AddToClassList("status-badge-success");
+                    break;
+                case ResolveStatus.Runtime:
+                    label.AddToClassList("status-badge-runtime");
                     break;
                 case ResolveStatus.Error:
                     label.AddToClassList("status-badge-error");

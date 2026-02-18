@@ -11,10 +11,19 @@ namespace TpLab.SceneResolver.Editor
     /// </summary>
     internal enum ResolveStatus
     {
-        /// <summary>正常に解決された</summary>
+        /// <summary>
+        /// 正常に解決された
+        /// </summary>
         Success,
         
-        /// <summary>解決に失敗した</summary>
+        /// <summary>
+        /// 実行時に動的生成されるオブジェクトへの参照（エディタ時には検証不可）
+        /// </summary>
+        Runtime,
+        
+        /// <summary>
+        /// 解決に失敗した
+        /// </summary>
         Error
     }
 
@@ -23,22 +32,34 @@ namespace TpLab.SceneResolver.Editor
     /// </summary>
     internal sealed class ResolveReport
     {
-        /// <summary>解決ステータス</summary>
+        /// <summary>
+        /// 解決ステータス
+        /// </summary>
         public ResolveStatus Status { get; set; }
         
-        /// <summary>対象のGameObject</summary>
+        /// <summary>
+        /// 対象のGameObject
+        /// </summary>
         public GameObject GameObject { get; set; }
         
-        /// <summary>コンポーネント名</summary>
+        /// <summary>
+        /// コンポーネント名
+        /// </summary>
         public string ComponentName { get; set; }
         
-        /// <summary>フィールド名</summary>
+        /// <summary>
+        /// フィールド名
+        /// </summary>
         public string FieldName { get; set; }
         
-        /// <summary>解決ソース</summary>
+        /// <summary>
+        /// 解決ソース
+        /// </summary>
         public ResolveSource Source { get; set; }
         
-        /// <summary>詳細メッセージ</summary>
+        /// <summary>
+        /// 詳細メッセージ
+        /// </summary>
         public string Message { get; set; }
     }
 
@@ -132,6 +153,21 @@ namespace TpLab.SceneResolver.Editor
             {
                 status = ResolveStatus.Error;
                 message = "Field type is not a Component.";
+            }
+            // AllowRuntimeオプション付きフィールド：実行時解決を許可
+            else if (attribute.Options.HasFlag(ResolveOptions.AllowRuntime))
+            {
+                if (results.Count == 0)
+                {
+                    status = ResolveStatus.Runtime;
+                    message = "Will be resolved at runtime (dynamically generated object).";
+                }
+                else
+                {
+                    // 実行時に生成される予定だが、既にエディタ時に存在する場合は成功扱い
+                    status = ResolveStatus.Success;
+                    message = "Resolved successfully (runtime-allowed field).";
+                }
             }
             // 候補数チェック：解決候補が見つからない
             else if (results.Count == 0)
