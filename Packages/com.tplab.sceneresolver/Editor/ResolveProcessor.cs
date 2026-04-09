@@ -102,7 +102,12 @@ namespace TpLab.SceneResolver.Editor
             else
             {
                 var elementType = fieldType.GetElementType();
-                var typedArray = Array.CreateInstance(elementType, results.Count);
+                if (elementType == null)
+                {
+                    Logger.LogError($"Resolve failed: {field.Name} (cannot determine array element type)", self);
+                    return;
+                }
+                var typedArray = Array.CreateInstance(elementType!, results.Count);
                 Array.Copy(results.ToArray(), typedArray, results.Count);
                 field.SetValue(self, typedArray);
             }

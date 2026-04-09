@@ -108,13 +108,29 @@ namespace TpLab.SceneResolver.Editor
         }
 
         /// <summary>
-        /// 個別のフィールドを分析し、解決候補を検証
+        /// 個別のフィールドを分析し、解決候補を検証する。
+        /// <see cref="ResolveSource.Scope"/> の場合は祖先に <see cref="ResolveScope"/> が存在するかも検証する。
         /// </summary>
         /// <param name="target">対象のMonoBehaviour</param>
         /// <param name="field">分析対象のフィールド</param>
         /// <param name="attribute">Resolve属性</param>
         void AnalyzeField(MonoBehaviour target, FieldInfo field, ResolveAttribute attribute)
         {
+            // Scope指定時、祖先にResolveScopeが存在しなければ即エラーレポートを返す
+            if (attribute.Source == ResolveSource.Scope && !HasScopeRoot(target.gameObject))
+            {
+                Reports.Add(new ResolveReport
+                {
+                    Status = ResolveStatus.Error,
+                    GameObject = target.gameObject,
+                    ComponentName = target.GetType().Name,
+                    FieldName = field.Name,
+                    Source = attribute.Source,
+                    Message = "No ResolveScope found in ancestors. Attach ResolveScope to a parent GameObject."
+                });
+                return;
+            }
+
             var fieldType = field.FieldType;
             var candidates = ResolveComponentFinder.Find(
                 target,
@@ -123,6 +139,23 @@ namespace TpLab.SceneResolver.Editor
                 attribute.Options
             );
             ValidateAndReport(target, field, attribute, candidates);
+        }
+
+        /// <summary>
+        /// 指定された GameObject の祖先に <see cref="ResolveScope"/> が存在するか確認する。
+        /// </summary>
+        /// <param name="self">確認対象のGameObject</param>
+        /// <returns>祖先にResolveScopeが存在すれば<c>true</c></returns>
+        static bool HasScopeRoot(GameObject self)
+        {
+            var current = self.transform.parent;
+            while (current != null)
+            {
+                if (current.TryGetComponent<ResolveScope>(out _))
+                    return true;
+                current = current.parent;
+            }
+            return false;
         }
 
         /// <summary>

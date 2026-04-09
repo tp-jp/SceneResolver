@@ -19,10 +19,15 @@ namespace TpLab.SceneResolver
         /// 子オブジェクトのコンポーネントから解決する
         /// </summary>
         Children,
-        
+
         /// <summary>
         /// シーン全体から解決する
         /// </summary>
         Scene,
+        
+        /// <summary>
+        /// 最も近い祖先の ResolveScope コンポーネントの範囲内から解決する
+        /// </summary>
+        Scope,
     }
 }
