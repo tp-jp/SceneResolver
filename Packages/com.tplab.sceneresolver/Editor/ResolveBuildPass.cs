@@ -16,6 +16,7 @@ namespace TpLab.SceneResolver.Editor
 
             foreach (var target in targets)
             {
+                if (target == null) continue;
                 ResolveProcessor.ResolveFields(target);
             }
         }
